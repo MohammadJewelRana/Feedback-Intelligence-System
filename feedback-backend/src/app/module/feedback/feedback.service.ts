@@ -1,3 +1,4 @@
+import { sendTeamEmail } from "../../utils/email.service";
 import { analyzeFeedbackWithLLM } from "../../utils/llm.service";
 import { IFeedback } from "./feedback.interface";
 import { FeedbackModel } from "./feedback.model";
@@ -7,15 +8,18 @@ const createFeedbackIntoDB = async (payload: IFeedback) => {
   if (!payload) {
     throw new Error("Payload is required");
   }
-    console.log(payload);
+  console.log(payload);
 
   if (!payload?.message) {
     throw new Error("Message is required");
   }
 
   const aiData = await analyzeFeedbackWithLLM(payload.message);
-  console.log(aiData)
+  // console.log(aiData)
   const result = await FeedbackModel.create({ ...payload, ...aiData });
+
+  // Send email after saving
+  await sendTeamEmail(aiData.team, result);
   return result;
 };
 
@@ -81,7 +85,3 @@ export const FeedbackServices = {
   deleteSingleFeedback,
   updateSingleFeedback,
 };
-
-
-
- 

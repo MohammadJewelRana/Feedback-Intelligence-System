@@ -4,8 +4,8 @@ import { FeedbackController } from "./feedback.controller";
 const router = Router();
 
 router.post("/create-feedback", FeedbackController.createFeedback);
-router.get("/", FeedbackController.getSingleFeedback);
-router.get("/:id", FeedbackController.getAllFeedback);
+router.get("/", FeedbackController.getAllFeedback);
+router.get("/:id", FeedbackController.getSingleFeedback);
 router.patch("/:id", FeedbackController.updateSingleFeedback);
 router.patch("/:id", FeedbackController.deleteSingleFeedback);
 
