@@ -28,7 +28,7 @@ const getAllFeedback = async (
   next: NextFunction
 ) => {
   try {
-    const result = await FeedbackServices.getAllFeedback();
+    const result = await FeedbackServices.getAllFeedback(req.query);
 
     res.status(200).json({
       success: true,
