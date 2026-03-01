@@ -1,5 +1,6 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application, NextFunction, Request, Response } from "express";
 import cors from "cors";
+import notFound from "./middleware/notFound";
 
 const app: Application = express();
 
@@ -19,24 +20,15 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-/* -------------------------- Health Check -------------------------- */
+/* -------------------------- base route  -------------------------- */
 
 app.get("/", (_req: Request, res: Response) => {
   res.status(200).json({
     success: true,
-    message: "Server is running 🚀",
+    message: "Feedback Backend Server is running 🚀",
   });
 });
 
-
-
-/* -------------------------- 404 Handler -------------------------- */
-
-app.use((_req: Request, res: Response) => {
-  res.status(404).json({
-    success: false,
-    message: "Route not found",
-  });
-});
+app.use(notFound); //not found route
 
 export default app;
