@@ -1,12 +1,14 @@
 import { Router } from "express";
 import { FeedbackController } from "./feedback.controller";
 
+const router = Router();
 
-const router=Router();
+router.post("/create-feedback", FeedbackController.createFeedback);
+router.get("/", FeedbackController.getSingleFeedback);
+router.get("/:id", FeedbackController.getAllFeedback);
+router.patch("/:id", FeedbackController.updateSingleFeedback);
+router.patch("/:id", FeedbackController.deleteSingleFeedback);
 
-router.post('/create-feedback',FeedbackController.createFeedback)
-router.get('/',FeedbackController.getAllFeedback)
-
-const FeedbackRoutes=router;
+const FeedbackRoutes = router;
 
 export default FeedbackRoutes;
