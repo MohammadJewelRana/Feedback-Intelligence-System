@@ -8,7 +8,8 @@ let server: Server;
 
 const startServer = async () => {
   try {
-    // await mongoose.connect(config.database_url as string);
+    await mongoose.connect(config.database_url as string);
+        console.log("✅ MongoDB connected successfully");
 
     //here config.port comes from index.js file
     server = app.listen(config.port, () => {
