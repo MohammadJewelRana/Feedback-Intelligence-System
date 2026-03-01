@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { sendTeamEmail } from "../../utils/email.service";
 import { analyzeFeedbackWithLLM } from "../../utils/llm.service";
 import { IFeedback } from "./feedback.interface";
@@ -6,21 +7,37 @@ import { FeedbackModel } from "./feedback.model";
 //create feedback
 const createFeedbackIntoDB = async (payload: IFeedback) => {
   if (!payload) {
-    throw new Error("Payload is required");
+    throw new Error("Feedback data missing");
   }
-  console.log(payload);
 
   if (!payload?.message) {
     throw new Error("Message is required");
   }
 
-  const aiData = await analyzeFeedbackWithLLM(payload.message);
-  // console.log(aiData)
-  const result = await FeedbackModel.create({ ...payload, ...aiData });
+  const session = await mongoose.startSession();
+  session.startTransaction();
 
-  // Send email after saving
-  await sendTeamEmail(aiData.team, result);
-  return result;
+  try {
+    const aiData = await analyzeFeedbackWithLLM(payload.message);
+
+    const [createdFeedback] = await FeedbackModel.create(
+      [{ ...payload, ...aiData }],
+      { session }
+    );
+
+    await sendTeamEmail(aiData.team, createdFeedback);
+
+    await session.commitTransaction();
+    session.endSession();
+
+    return createdFeedback;
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+
+    console.error("Transaction rolled back:", error);
+    throw new Error("Feedback creation failed. Rolled back.");
+  }
 };
 
 //get all feedback
