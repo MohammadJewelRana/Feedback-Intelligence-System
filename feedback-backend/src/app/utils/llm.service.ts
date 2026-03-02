@@ -25,7 +25,7 @@ Do not include explanation.
 Feedback:
 "${message}"
 `;
-console.log(prompt);
+  // console.log(prompt);
 
   const response = await model.invoke(prompt);
 

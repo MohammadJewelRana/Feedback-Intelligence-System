@@ -7,7 +7,7 @@ router.post("/create-feedback", FeedbackController.createFeedback);
 router.get("/", FeedbackController.getAllFeedback);
 router.get("/:id", FeedbackController.getSingleFeedback);
 router.patch("/:id", FeedbackController.updateSingleFeedback);
-router.patch("/:id", FeedbackController.deleteSingleFeedback);
+router.delete("/:id", FeedbackController.deleteSingleFeedback);
 
 const FeedbackRoutes = router;
 

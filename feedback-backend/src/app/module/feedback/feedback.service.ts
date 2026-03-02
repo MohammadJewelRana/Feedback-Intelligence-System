@@ -55,7 +55,10 @@ const getAllFeedback = async ({ name, category, priority }: any) => {
 const getSingleFeedback = async (id: string) => {
   if (!id) throw new Error("Feedback id missing!!");
 
-  const result = await FeedbackModel.findById({ id });
+  const result = await FeedbackModel.findOne({
+    _id: id,
+    isDeleted: false,
+  }).lean();
   return result;
 };
 
@@ -64,7 +67,7 @@ const deleteSingleFeedback = async (id: string) => {
   if (!id) throw new Error("Feedback id missing!!");
 
   const result = await FeedbackModel.findByIdAndUpdate(
-    id,
+    { _id: id, isDeleted: false },
     {
       isDeleted: true,
     },
@@ -85,7 +88,7 @@ const updateSingleFeedback = async (
   }
 
   const result = await FeedbackModel.findByIdAndUpdate(
-    id,
+    { _id: id, isDeleted: false },
     { $set: payload },
     {
       new: true,
