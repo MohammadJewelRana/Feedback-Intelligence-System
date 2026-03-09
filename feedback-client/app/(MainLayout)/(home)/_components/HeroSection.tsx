@@ -1,36 +1,54 @@
-import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
-import React from "react";
 
 const HeroSection = () => {
   return (
-    <div className="">
-      <section className="w-full py-16 flex flex-col items-center text-center gap-6">
-        {/* Title */}
-        <h1 className="text-4xl md:text-5xl font-bold">
-          AI Powered <span className="text-primary">Feedback Intelligence</span>
+    <section className="relative w-full overflow-hidden py-32 ">
+
+      {/* Background */}
+      <div className="absolute inset-0 ">
+
+        {/* Glow */}
+        <div
+          className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[900px] h-[600px] blur-3xl"
+          style={{
+            background:
+              "radial-gradient(circle at center, rgba(59,130,246,0.45), transparent 70%)",
+          }}
+        />
+
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background" />
+
+      </div>
+
+      {/* Content */}
+      <div className="relative max-w-4xl mx-auto px-6 text-center space-y-8 ">
+
+        <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground">
+          AI Powered Feedback
+          <br />
+          Intelligence System
         </h1>
 
-        {/* description */}
-        <p className="max-w-2xl text-default-500">
-          FedIQ automatically analyzes user feedback using AI to classify
-          category, priority, sentiment, and route issues to the correct team.
+        <p className="text-default-500 max-w-2xl mx-auto text-lg">
+          Automatically categorize and route feedback using AI. Analyze
+          sentiment, prioritize issues, and improve your product faster.
         </p>
 
-        {/* Search */}
-        <div className="w-full max-w-xl flex gap-3">
+        <div className="max-w-2xl mx-auto">
           <Input
             size="lg"
-            radius="lg"
+            radius="full"
             placeholder="Search feedback by name..."
+            classNames={{
+              inputWrapper:
+                "bg-content1/60 backdrop-blur border border-divider hover:border-default-300",
+            }}
           />
-
-          <Button color="primary" size="lg">
-            Search
-          </Button>
         </div>
-      </section>
-    </div>
+
+      </div>
+    </section>
   );
 };
 
