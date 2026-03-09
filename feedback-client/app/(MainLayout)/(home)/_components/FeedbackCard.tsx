@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const FeedbackCard = ({ item }: any) => {
   const { name, team, message, category, priority, sentiment } = item;
+
+  const textRef = useRef<HTMLParagraphElement>(null);
+  const [isTruncated, setIsTruncated] = useState(false);
+
+  useEffect(() => {
+    const el = textRef.current;
+    if (!el) return;
+    setIsTruncated(el.scrollHeight > el.clientHeight);
+  }, [message]);
 
   const priorityColor: any = {
     Critical: "bg-red-500/15 text-red-500 border-red-500/30 dark:text-red-400",
@@ -22,7 +31,7 @@ const FeedbackCard = ({ item }: any) => {
   return (
     <div
       className="
-      group p-6 rounded-xl border 
+      group relative p-6 rounded-xl border 
       border-gray-200 dark:border-white/10
       bg-white dark:bg-background/40
       backdrop-blur-md shadow-md
@@ -43,9 +52,40 @@ const FeedbackCard = ({ item }: any) => {
       </div>
 
       {/* Message */}
-      <p className="mt-4 text-sm text-gray-700 dark:text-gray-300 leading-relaxed line-clamp-3">
-        {message}
-      </p>
+      <div className="relative mt-4">
+        <p
+          ref={textRef}
+          className="
+          text-sm text-gray-700 dark:text-gray-300
+          leading-relaxed line-clamp-3 min-h-[60px]
+          cursor-default
+        "
+        >
+          {message}
+        </p>
+
+        {isTruncated && (
+          <div
+            className="
+            pointer-events-none
+            absolute left-0 top-full mt-2
+            w-full max-w-sm
+            rounded-lg border
+            border-gray-200 dark:border-white/10
+            bg-white dark:bg-gray-900
+            p-3 text-sm
+            text-gray-700 dark:text-gray-300
+            shadow-xl
+            opacity-0 translate-y-1
+            group-hover:opacity-100 group-hover:translate-y-0
+            transition-all duration-200
+            z-50
+          "
+          >
+            {message}
+          </div>
+        )}
+      </div>
 
       {/* Info Section */}
       <div className="grid grid-cols-3 gap-3 mt-6 text-xs">
