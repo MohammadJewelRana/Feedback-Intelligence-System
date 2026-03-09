@@ -1,7 +1,7 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Feedback Intelligent",
+  name: " FedIQ  ",
   description: "Make beautiful websites regardless of your design experience.",
   navItems: [
     {
@@ -13,32 +13,14 @@ export const siteConfig = {
       href: "/docs",
     },
  
-    {
-      label: "About",
-      href: "/about",
-    },
+ 
   ],
   navMenuItems: [
     {
       label: "Profile",
       href: "/profile",
     },
-    {
-      label: "Dashboard",
-      href: "/dashboard",
-    },
-    {
-      label: "Projects",
-      href: "/projects",
-    },
-    {
-      label: "Team",
-      href: "/team",
-    },
-    {
-      label: "Calendar",
-      href: "/calendar",
-    },
+
     {
       label: "Settings",
       href: "/settings",
