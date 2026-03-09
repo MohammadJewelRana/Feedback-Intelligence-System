@@ -1,13 +1,30 @@
 import { baseApi } from "../baseApi";
 
- 
-
 export const feedbackApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    
     // Get all feedback
     getAllFeedback: builder.query({
-      query: () => "/feedback",
+      query: (filters: {
+        name?: string;
+        category?: string;
+        priority?: string;
+      }) => {
+        const params = new URLSearchParams();
+
+        if (filters?.name) params.append("name", filters.name);
+        if (filters?.category && filters.category !== "all") {
+          params.append("category", filters.category);
+        }
+        if (filters?.priority && filters.priority !== "all") {
+          params.append("priority", filters.priority);
+        }
+
+        return {
+          url: "/feedback",
+          params,
+        };
+      },
+
       providesTags: ["Feedback"],
     }),
 
@@ -24,6 +41,7 @@ export const feedbackApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+
       invalidatesTags: ["Feedback"],
     }),
 
@@ -34,6 +52,7 @@ export const feedbackApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
+
       invalidatesTags: ["Feedback"],
     }),
 
@@ -43,9 +62,12 @@ export const feedbackApi = baseApi.injectEndpoints({
         url: `/feedback/${id}`,
         method: "DELETE",
       }),
+
       invalidatesTags: ["Feedback"],
     }),
   }),
+
+  overrideExisting: true,
 });
 
 export const {

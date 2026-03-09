@@ -25,17 +25,13 @@ export const useCreateFeedback = () => {
 };
 
 // Get All Feedback
-export const useGetAllFeedback = () => {
-  const { data, error, isLoading } = useGetAllFeedbackQuery(undefined);
+export const useGetAllFeedback = (filters: any) => {
+  const { data, error, isLoading } = useGetAllFeedbackQuery(filters);
 
   let feedbacks: any[] = [];
 
   if (data?.success) {
     feedbacks = data.data;
-  }
-
-  if (error) {
-    toast.error("Failed to fetch feedback!");
   }
 
   return {
