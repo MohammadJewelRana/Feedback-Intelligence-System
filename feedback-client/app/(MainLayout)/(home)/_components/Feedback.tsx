@@ -1,9 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Select, SelectItem } from "@heroui/select";
 import { Button } from "@heroui/button";
+import { Input } from "@heroui/input";
+
 import { useGetAllFeedback } from "@/store/hooks/feedback.hook";
+
 import FeedbackCard from "./FeedbackCard";
 import FeedbackSkeleton from "./FeedbackSkeleton";
 import NoFeedbackCard from "./NoFeedbackCard";
@@ -27,26 +30,45 @@ const priorities = [
 const Feedback = () => {
   const [category, setCategory] = useState("all");
   const [priority, setPriority] = useState("all");
+  const [search, setSearch] = useState("");
 
-  // visible card count
   const [visibleCount, setVisibleCount] = useState(6);
 
-  const { feedbacks, isLoading } = useGetAllFeedback({
+  const { feedbacks = [], isLoading } = useGetAllFeedback({
+    name: search,
     category,
     priority,
   });
 
-  // visible feedback
   const visibleFeedbacks = feedbacks.slice(0, visibleCount);
+
+  // Reset visible cards when filter/search changes
+  useEffect(() => {
+    setVisibleCount(6);
+  }, [category, priority, search]);
 
   return (
     <div className="my-10">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-        <div>
-          <h1 className="font-bold text-2xl mb-4">All Feedback</h1>
 
-          <div className="flex flex-wrap gap-4">
+      {/* Header */}
+      <div className="flex flex-col gap-6 mb-8">
+
+        {/* Title */}
+        <div>
+          <h1 className="text-2xl font-semibold">All Feedback</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            Browse, search and filter feedback submitted by users
+          </p>
+        </div>
+
+        {/* Toolbar */}
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+
+          {/* Filters */}
+          <div className="flex flex-col sm:flex-row gap-3 w-full">
+
+      
+
             {/* Category */}
             <Select
               selectedKeys={[category]}
@@ -54,10 +76,13 @@ const Feedback = () => {
                 setCategory(Array.from(keys)[0] as string)
               }
               items={categories}
-              className="w-[200px]"
               variant="bordered"
+              label="Category"
+              className="w-full sm:w-[180px]"
             >
-              {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
+              {(item) => (
+                <SelectItem key={item.key}>{item.label}</SelectItem>
+              )}
             </Select>
 
             {/* Priority */}
@@ -67,56 +92,78 @@ const Feedback = () => {
                 setPriority(Array.from(keys)[0] as string)
               }
               items={priorities}
-              className="w-[200px]"
               variant="bordered"
+              label="Priority"
+              className="w-full sm:w-[180px]"
             >
-              {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
+              {(item) => (
+                <SelectItem key={item.key}>{item.label}</SelectItem>
+              )}
             </Select>
-          </div>
-        </div>
 
-        <div>
-          <Button color="primary" radius="lg">
+                   {/* Search */}
+            <Input
+              placeholder="Search feedback by name..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              variant="bordered"
+              className="w-full sm:w-[240px]"
+            />
+
+          </div>
+
+          {/* Action */}
+          <Button
+            color="primary"
+            radius="lg"
+            className="w-full sm:w-auto"
+          >
             + Create Feedback
           </Button>
+
         </div>
+
       </div>
 
-      {/* Feedback Cards */}
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+      {/* Feedback Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-  {/* Loading */}
-  {isLoading &&
-    Array.from({ length: 6 }).map((_, index) => (
-      <FeedbackSkeleton key={index} />
-    ))}
+        {/* Loading */}
+        {isLoading &&
+          Array.from({ length: 6 }).map((_, index) => (
+            <FeedbackSkeleton key={index} />
+          ))}
 
-  {/* No Data */}
-  {!isLoading && feedbacks.length === 0 && (
-    <NoFeedbackCard category={category} priority={priority} />
-  )}
+        {/* No Data */}
+        {!isLoading && feedbacks.length === 0 && (
+          <NoFeedbackCard
+            category={category}
+            priority={priority}
+          />
+        )}
 
-  {/* Data */}
-  {!isLoading &&
-    feedbacks.length > 0 &&
-    visibleFeedbacks.map((item: any) => (
-      <FeedbackCard key={item._id} item={item} />
-    ))}
+        {/* Data */}
+        {!isLoading &&
+          feedbacks.length > 0 &&
+          visibleFeedbacks.map((item: any) => (
+            <FeedbackCard key={item._id} item={item} />
+          ))}
 
-</div>
+      </div>
 
-      {/* Load More Button */}
+      {/* Load More */}
       {!isLoading && visibleCount < feedbacks.length && (
         <div className="flex justify-center mt-10">
           <Button
-            radius="lg"
             variant="bordered"
+            radius="lg"
             onPress={() => setVisibleCount((prev) => prev + 3)}
           >
             Load More
           </Button>
         </div>
       )}
+
     </div>
   );
 };
