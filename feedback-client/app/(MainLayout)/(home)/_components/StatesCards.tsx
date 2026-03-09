@@ -27,25 +27,34 @@ const statsData = [
 
 const StatesCards = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
       {statsData.map((stat, index) => {
         const Icon = stat.icon;
 
         return (
           <div
             key={index}
-            className="flex justify-between items-center p-6 rounded-2xl border border-white/10 bg-[#020617] hover:border-white/20 transition"
+            className="
+            flex justify-between items-center p-6 rounded-2xl
+            border border-white/10
+            bg-gradient-to-b from-white/5 to-white/[0.02]
+            backdrop-blur-md
+            shadow-[0_10px_40px_rgba(0,0,0,0.35)]
+            hover:shadow-[0_20px_60px_rgba(0,0,0,0.5)]
+            hover:-translate-y-1
+            transition-all duration-300
+            "
           >
             <div>
-              <p className="text-gray-400 text-sm">{stat.title}</p>
+              <p className="text-default-500 text-sm">{stat.title}</p>
               <p className="font-bold text-3xl pt-2">{stat.value}</p>
             </div>
 
             <div
-              className={`p-3 rounded-xl text-2xl 
-              ${stat.color === "cyan" && "bg-cyan-900/40 text-cyan-400"}
-              ${stat.color === "red" && "bg-red-900/40 text-red-400"}
-              ${stat.color === "orange" && "bg-orange-900/40 text-orange-400"}
+              className={`p-3 rounded-xl text-2xl shadow-inner
+              ${stat.color === "cyan" && "bg-cyan-500/15 text-cyan-400"}
+              ${stat.color === "red" && "bg-red-500/15 text-red-400"}
+              ${stat.color === "orange" && "bg-orange-500/15 text-orange-400"}
               `}
             >
               <Icon />
