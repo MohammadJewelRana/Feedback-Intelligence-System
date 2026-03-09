@@ -7,6 +7,7 @@ import { HeroUIProvider } from "@heroui/system";
 import { useRouter } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import ReduxProvider from "@/store/providers";
+import { Toaster } from "react-hot-toast";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -31,6 +32,10 @@ export function Providers({ children, themeProps }: ProvidersProps) {
           {children}
         </NextThemesProvider>
       </ReduxProvider>
+      <Toaster
+  position="top-right"
+  reverseOrder={false}
+/>
     </HeroUIProvider>
   );
 }
