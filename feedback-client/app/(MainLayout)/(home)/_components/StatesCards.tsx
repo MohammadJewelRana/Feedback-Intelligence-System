@@ -27,7 +27,7 @@ const statsData = [
 
 const StatesCards = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
       {statsData.map((stat, index) => {
         const Icon = stat.icon;
 

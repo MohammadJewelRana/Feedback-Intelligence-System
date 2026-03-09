@@ -6,8 +6,9 @@ const page = () => {
   return (
     <div>
       <HeroSection />
-      <StatesCards/>
-   
+      <div className=" mx-auto max-w-7xl  ">
+        <StatesCards />
+      </div>
     </div>
   );
 };
