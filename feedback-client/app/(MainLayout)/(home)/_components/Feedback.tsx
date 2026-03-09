@@ -48,11 +48,9 @@ const Feedback = () => {
   }, [category, priority, search]);
 
   return (
-    <div className="my-10">
-
+    <div className="mt-12 md:mt-20">
       {/* Header */}
       <div className="flex flex-col gap-6 mb-8">
-
         {/* Title */}
         <div>
           <h1 className="text-2xl font-semibold">All Feedback</h1>
@@ -63,12 +61,8 @@ const Feedback = () => {
 
         {/* Toolbar */}
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-
           {/* Filters */}
           <div className="flex flex-col sm:flex-row gap-3 w-full">
-
-      
-
             {/* Category */}
             <Select
               selectedKeys={[category]}
@@ -80,9 +74,7 @@ const Feedback = () => {
               label="Category"
               className="w-full sm:w-[180px]"
             >
-              {(item) => (
-                <SelectItem key={item.key}>{item.label}</SelectItem>
-              )}
+              {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
             </Select>
 
             {/* Priority */}
@@ -96,12 +88,10 @@ const Feedback = () => {
               label="Priority"
               className="w-full sm:w-[180px]"
             >
-              {(item) => (
-                <SelectItem key={item.key}>{item.label}</SelectItem>
-              )}
+              {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
             </Select>
 
-                   {/* Search */}
+            {/* Search */}
             <Input
               placeholder="Search feedback by name..."
               value={search}
@@ -109,25 +99,17 @@ const Feedback = () => {
               variant="bordered"
               className="w-full sm:w-[240px]"
             />
-
           </div>
 
           {/* Action */}
-          <Button
-            color="primary"
-            radius="lg"
-            className="w-full sm:w-auto"
-          >
+          <Button color="primary" radius="lg" className="w-full sm:w-auto">
             + Create Feedback
           </Button>
-
         </div>
-
       </div>
 
       {/* Feedback Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
         {/* Loading */}
         {isLoading &&
           Array.from({ length: 6 }).map((_, index) => (
@@ -136,10 +118,7 @@ const Feedback = () => {
 
         {/* No Data */}
         {!isLoading && feedbacks.length === 0 && (
-          <NoFeedbackCard
-            category={category}
-            priority={priority}
-          />
+          <NoFeedbackCard category={category} priority={priority} />
         )}
 
         {/* Data */}
@@ -148,7 +127,6 @@ const Feedback = () => {
           visibleFeedbacks.map((item: any) => (
             <FeedbackCard key={item._id} item={item} />
           ))}
-
       </div>
 
       {/* Load More */}
@@ -163,7 +141,6 @@ const Feedback = () => {
           </Button>
         </div>
       )}
-
     </div>
   );
 };
