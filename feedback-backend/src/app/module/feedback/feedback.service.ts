@@ -107,10 +107,34 @@ const updateSingleFeedback = async (
   return result;
 };
 
+//get feedback statistics
+const getFeedbackStats = async () => {
+  const filter = { isDeleted: false };
+
+  const totalFeedback = await FeedbackModel.countDocuments(filter);
+
+  const highPriority = await FeedbackModel.countDocuments({
+    ...filter,
+    priority: "High",
+  });
+
+  const negativeSentiment = await FeedbackModel.countDocuments({
+    ...filter,
+    sentiment: "Negative",
+  });
+
+  return {
+    totalFeedback,
+    highPriority,
+    negativeSentiment,
+  };
+};
+
 export const FeedbackServices = {
   createFeedbackIntoDB,
   getAllFeedback,
   getSingleFeedback,
   deleteSingleFeedback,
   updateSingleFeedback,
+  getFeedbackStats,
 };
