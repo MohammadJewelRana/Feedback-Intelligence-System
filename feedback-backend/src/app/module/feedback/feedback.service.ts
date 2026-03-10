@@ -40,13 +40,21 @@ const createFeedbackIntoDB = async (payload: IFeedback) => {
   }
 };
 
-//get all feedback
+// get all feedback
 const getAllFeedback = async ({ name, category, priority }: any) => {
   const filter: Record<string, any> = { isDeleted: false };
 
-  if (name?.trim()) filter.name = { $regex: name.trim(), $options: "i" };
-  if (category) filter.category = category;
-  if (priority) filter.priority = priority;
+  if (name?.trim()) {
+    filter.name = { $regex: name.trim(), $options: "i" };
+  }
+
+  if (category && category !== "all") {
+    filter.category = category;
+  }
+
+  if (priority && priority !== "all") {
+    filter.priority = priority;
+  }
 
   return FeedbackModel.find(filter).sort({ createdAt: -1 }).lean();
 };
