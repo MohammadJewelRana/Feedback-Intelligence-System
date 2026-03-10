@@ -1,33 +1,41 @@
+"use client"
+
+import { useGetFeedbackCounts } from "@/store/hooks/feedback.hook";
 import {
   FiMessageSquare,
   FiAlertTriangle,
   FiTrendingDown,
 } from "react-icons/fi";
-
-const statsData = [
-  {
-    title: "Total Feedback",
-    value: "2,347",
-    icon: FiMessageSquare,
-    color: "cyan",
-  },
-  {
-    title: "High Priority Feedback",
-    value: "142",
-    icon: FiAlertTriangle,
-    color: "red",
-  },
-  {
-    title: "Negative Sentiment Feedback",
-    value: "89",
-    icon: FiTrendingDown,
-    color: "orange",
-  },
-];
+ 
 
 const StatesCards = () => {
+  const { stats, isLoading } = useGetFeedbackCounts();
+  // console.log(stats);
+  
+
+  const statsData = [
+    {
+      title: "Total Feedback",
+      value: stats?.totalFeedback ?? 0,
+      icon: FiMessageSquare,
+      color: "cyan",
+    },
+    {
+      title: "High Priority Feedback",
+      value: stats?.highPriority ?? 0,
+      icon: FiAlertTriangle,
+      color: "red",
+    },
+    {
+      title: "Negative Sentiment Feedback",
+      value: stats?.negativeSentiment ?? 0,
+      icon: FiTrendingDown,
+      color: "orange",
+    },
+  ];
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {statsData.map((stat, index) => {
         const Icon = stat.icon;
 
@@ -47,7 +55,10 @@ const StatesCards = () => {
           >
             <div>
               <p className="text-default-500 text-sm">{stat.title}</p>
-              <p className="font-bold text-3xl pt-2">{stat.value}</p>
+
+              <p className="font-bold text-3xl pt-2">
+                {isLoading ? "..." : stat.value}
+              </p>
             </div>
 
             <div

@@ -3,6 +3,7 @@ import {
   useCreateFeedbackMutation,
   useDeleteFeedbackMutation,
   useGetAllFeedbackQuery,
+  useGetFeedbackCountsQuery,
   useGetSingleFeedbackQuery,
   useUpdateFeedbackMutation,
 } from "../services/feedback.api";
@@ -94,4 +95,27 @@ export const useDeleteFeedback = () => {
   };
 
   return { remove, isLoading, error };
+};
+
+// Get Feedback Counts
+export const useGetFeedbackCounts = () => {
+  const { data, error, isLoading } = useGetFeedbackCountsQuery(undefined);
+  // console.log(data);
+  
+
+  let stats = {
+    totalFeedback: 0,
+    highPriority: 0,
+    negativeSentiment: 0,
+  };
+
+  if (data?.success) {
+    stats = data.data;
+  }
+
+  return {
+    stats,
+    isLoading,
+    isError: !!error,
+  };
 };

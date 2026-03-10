@@ -65,6 +65,12 @@ export const feedbackApi = baseApi.injectEndpoints({
 
       invalidatesTags: ["Feedback"],
     }),
+
+    // Get feedback statistics
+    getFeedbackCounts: builder.query({
+      query: () => `/feedback/stats`,
+      providesTags: ["Feedback"],
+    }),
   }),
 
   overrideExisting: true,
@@ -76,4 +82,5 @@ export const {
   useCreateFeedbackMutation,
   useUpdateFeedbackMutation,
   useDeleteFeedbackMutation,
+  useGetFeedbackCountsQuery
 } = feedbackApi;
