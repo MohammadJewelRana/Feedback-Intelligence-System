@@ -22,6 +22,11 @@ const feedbackSchema = new Schema<IFeedback>(
       min: 1,
       max: 5,
     },
+    category: { type: String },
+    priority: { type: String },
+    sentiment: { type: String },
+    team: { type: String },
+    isDeleted: { type: Boolean, default: false },
   },
   {
     timestamps: true,
