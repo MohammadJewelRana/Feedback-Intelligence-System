@@ -20,6 +20,8 @@ import NextLink from "next/link";
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { Logo } from "@/components/icons";
+import Image from "next/image";
+import image from "@/assets/logo/logo1.jpg";
 
 export const Navbar = () => {
   return (
@@ -37,11 +39,15 @@ export const Navbar = () => {
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         {/* Logo */}
         <NavbarBrand as="li" className="gap-3 max-w-fit">
-          <NextLink
-            className="flex justify-start items-center gap-2"
-            href="/"
-          >
-            <Logo />
+          <NextLink className="flex justify-start items-center gap-2" href="/">
+            <Image
+              src={image}
+              alt="FedIQ Logo"
+              width={32}
+              height={32}
+              priority
+              className="rounded-full"
+            />
 
             <motion.span
               className="
@@ -110,8 +116,8 @@ export const Navbar = () => {
                   index === 2
                     ? "primary"
                     : index === siteConfig.navMenuItems.length - 1
-                    ? "danger"
-                    : "foreground"
+                      ? "danger"
+                      : "foreground"
                 }
                 href="#"
                 size="lg"
