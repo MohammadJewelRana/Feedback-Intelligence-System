@@ -4,12 +4,13 @@ const FeedbackCard = ({ item }: any) => {
   const { name, team, message, category, priority, sentiment } = item;
 
   const textRef = useRef<HTMLParagraphElement>(null);
-  const [isTruncated, setIsTruncated] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   useEffect(() => {
     const el = textRef.current;
-    if (!el) return;
-    setIsTruncated(el.scrollHeight > el.clientHeight);
+    if (el) {
+      setShowTooltip(el.scrollHeight > el.clientHeight);
+    }
   }, [message]);
 
   const priorityColor: any = {
@@ -29,23 +30,13 @@ const FeedbackCard = ({ item }: any) => {
   };
 
   return (
-    <div
-      className="
-      group relative p-6 rounded-xl border 
-      border-gray-200 dark:border-white/10
-      bg-white dark:bg-background/40
-      backdrop-blur-md shadow-md
-      flex flex-col justify-between h-full
-      hover:border-gray-300 dark:hover:border-white/30
-      hover:shadow-xl transition-all duration-300
-    "
-    >
+    <div className="group relative p-6 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-background/40 shadow-md flex flex-col justify-between h-full hover:shadow-xl transition-all">
+      
       {/* Header */}
       <div>
         <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
           {name}
         </h3>
-
         <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
           {team} Team
         </p>
@@ -53,59 +44,34 @@ const FeedbackCard = ({ item }: any) => {
 
       {/* Message */}
       <div className="relative mt-4">
-        <p
-          ref={textRef}
-          className="
-          text-sm text-gray-700 dark:text-gray-300
-          leading-relaxed line-clamp-3 min-h-[60px]
-          cursor-default
-        "
-        >
-          {message}
-        </p>
+  <p
+  ref={textRef}
+  className="
+    text-sm text-gray-700 dark:text-gray-300
+    leading-relaxed line-clamp-2 min-h-[48px]
+  "
+>
+  {message}
+</p>
 
-        {isTruncated && (
-          <div
-            className="
-            pointer-events-none
-            absolute left-0 top-full mt-2
-            w-full max-w-sm
-            rounded-lg border
-            border-gray-200 dark:border-white/10
-            bg-white dark:bg-gray-900
-            p-3 text-sm
-            text-gray-700 dark:text-gray-300
-            shadow-xl
-            opacity-0 translate-y-1
-            group-hover:opacity-100 group-hover:translate-y-0
-            transition-all duration-200
-            z-50
-          "
-          >
+        {showTooltip && (
+          <div className="absolute left-0 top-full mt-2 w-72 p-3 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-white/10 shadow-lg text-sm text-gray-700 dark:text-gray-300 opacity-0 group-hover:opacity-100 transition z-50">
             {message}
           </div>
         )}
       </div>
 
-      {/* Info Section */}
+      {/* Info */}
       <div className="grid grid-cols-3 gap-3 mt-6 text-xs">
-        {/* Category */}
         <div className="flex flex-col gap-1">
-          <span className="text-gray-500 uppercase tracking-wide">
-            Category
-          </span>
-
+          <span className="text-gray-500 uppercase">Category</span>
           <span className="px-3 py-1 rounded-full bg-blue-500/15 text-blue-600 border border-blue-500/30 dark:text-blue-400 w-fit">
             {category}
           </span>
         </div>
 
-        {/* Priority */}
         <div className="flex flex-col gap-1">
-          <span className="text-gray-500 uppercase tracking-wide">
-            Priority
-          </span>
-
+          <span className="text-gray-500 uppercase">Priority</span>
           <span
             className={`px-3 py-1 rounded-full border w-fit ${
               priorityColor[priority] ||
@@ -116,12 +82,8 @@ const FeedbackCard = ({ item }: any) => {
           </span>
         </div>
 
-        {/* Sentiment */}
         <div className="flex flex-col gap-1">
-          <span className="text-gray-500 uppercase tracking-wide">
-            Sentiment
-          </span>
-
+          <span className="text-gray-500 uppercase">Sentiment</span>
           <span
             className={`px-3 py-1 rounded-full border w-fit ${
               sentimentColor[sentiment] ||
