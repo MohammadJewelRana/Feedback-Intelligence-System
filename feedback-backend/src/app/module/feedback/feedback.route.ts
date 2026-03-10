@@ -5,6 +5,7 @@ const router = Router();
 
 router.post("/create-feedback", FeedbackController.createFeedback);
 router.get("/", FeedbackController.getAllFeedback);
+router.get("/stats", FeedbackController.getFeedbackCounts);
 router.get("/:id", FeedbackController.getSingleFeedback);
 router.patch("/:id", FeedbackController.updateSingleFeedback);
 router.delete("/:id", FeedbackController.deleteSingleFeedback);

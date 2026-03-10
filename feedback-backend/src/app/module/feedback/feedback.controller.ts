@@ -68,10 +68,26 @@ const updateSingleFeedback = catchAsync(async (req, res) => {
   });
 });
 
+ 
+// get feedback counts
+const getFeedbackCounts = catchAsync(async (req, res) => {
+ 
+  
+  const result = await FeedbackServices.getFeedbackStats();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,  
+    message: "Feedback statistics retrieved successfully",
+    data: result,
+  });
+});
+
 export const FeedbackController = {
   createFeedback,
   getAllFeedback,
   getSingleFeedback,
   deleteSingleFeedback,
   updateSingleFeedback,
+  getFeedbackCounts
 };

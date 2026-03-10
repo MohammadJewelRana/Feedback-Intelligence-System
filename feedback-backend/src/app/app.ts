@@ -9,7 +9,7 @@ const app: Application = express();
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:3001",
-  "https://feedback-frontend.vercel.app",
+  "https://feedback-intelligence-system.vercel.app",
 ];
 
 const corsOptions = {
